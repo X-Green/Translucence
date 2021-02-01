@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "translucence",
+  "version": "${version}",
+
+  "name": "Translucence",
+  "description": "Make blocks translucent",
+  "authors": [
+    "eeasee"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/translucence/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.eeasee.translucence.TranslucenceMod"
+    ]
+  },
+  "mixins": [
+    "translucence.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": "*",
+    "fabric": "*",
+    "minecraft": "1.15.x"
+  },
+  "suggests": {
+  }
+}

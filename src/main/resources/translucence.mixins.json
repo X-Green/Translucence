@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.eeasee.translucence.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinBlock",
+    "MixinBlockModelRenderer$AmbientOcclusionCalculator",
+    "MixinBlocks",
+    "MixinBlockState",
+    "MixinFluidRenderer",
+    "MixinLeavesBlock",
+    "MixinPistonBlockEntityRenderer",
+    "MixinWorldRenderer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
