@@ -2,7 +2,7 @@ package dev.eeasee.translucence.mixin;
 
 import com.google.common.collect.ImmutableMap;
 import dev.eeasee.translucence.fakes.IBlockState;
-import dev.eeasee.translucence.property.PropertyRenderingOpacity;
+import dev.eeasee.translucence.property.PropertyRenderingType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -26,28 +26,28 @@ public abstract class MixinBlockState extends AbstractState<Block, BlockState> i
         super(owner, entries);
     }
 
-    private boolean transparent = false;
+    private PropertyRenderingType propertyRenderingType;
 
     @Inject(method = "getRenderType", at = @At("HEAD"), cancellable = true)
     private void invisibleRenderType(CallbackInfoReturnable<BlockRenderType> cir) {
-        if (this.transparent) {
-            cir.setReturnValue(BlockRenderType.INVISIBLE);
+        if (propertyRenderingType.notNormal) {
+            cir.setReturnValue(propertyRenderingType.renderType);
         }
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void initTranslucence(Block block, ImmutableMap<Property<?>, Comparable<?>> propertyMap, CallbackInfo ci) {
-        if (propertyMap.containsKey(PropertyRenderingOpacity.RENDERING_OPACITY)) {
-            if (propertyMap.get(PropertyRenderingOpacity.RENDERING_OPACITY) != PropertyRenderingOpacity.NORMAL) {
-                this.transparent = true;
-            }
-        }
+        this.propertyRenderingType = (PropertyRenderingType) propertyMap.getOrDefault(PropertyRenderingType.RENDERING_TYPE, PropertyRenderingType.NORMAL);
     }
 
 
     @Override
     public boolean isTransparent() {
-        return this.transparent;
+        return this.propertyRenderingType.transparent;
     }
 
+    @Override
+    public boolean isOutlined() {
+        return this.propertyRenderingType.outlined;
+    }
 }

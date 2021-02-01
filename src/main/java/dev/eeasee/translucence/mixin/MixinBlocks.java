@@ -2,7 +2,7 @@ package dev.eeasee.translucence.mixin;
 
 import dev.eeasee.translucence.config.Configs;
 import dev.eeasee.translucence.fakes.IBlock;
-import dev.eeasee.translucence.property.PropertyRenderingOpacity;
+import dev.eeasee.translucence.property.PropertyRenderingType;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.Identifier;
@@ -22,8 +22,8 @@ public abstract class MixinBlocks {
         translucent.forEach(identifier -> {
             Block target = (Registry.BLOCK.get(identifier));
             ((IBlock) target).appendNewBlockStates(
-                    builder -> builder.add(PropertyRenderingOpacity.RENDERING_OPACITY),
-                    blockState -> blockState.with(PropertyRenderingOpacity.RENDERING_OPACITY, PropertyRenderingOpacity.NORMAL)
+                    builder -> builder.add(PropertyRenderingType.RENDERING_TYPE),
+                    blockState -> blockState.with(PropertyRenderingType.RENDERING_TYPE, PropertyRenderingType.NORMAL)
             );
         });
     }
