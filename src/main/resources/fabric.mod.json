@@ -23,7 +23,7 @@
     ]
   },
   "mixins": [
-    "translucence.mixins.json"
+    "mixins.translucence.json"
   ],
 
   "depends": {

@@ -6,6 +6,7 @@
   "mixins": [
     "MixinBlock",
     "MixinBlockModelRenderer$AmbientOcclusionCalculator",
+    "MixinBlockRenderManager",
     "MixinBlocks",
     "MixinBlockState",
     "MixinFluidRenderer",
