@@ -6,7 +6,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import dev.eeasee.translucence.util.Color4f;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.Identifier;
 
 import java.io.File;
@@ -40,6 +42,14 @@ public enum Configs {
             builder.add(new Identifier(s));
         }
         return builder.build();
+    }
+
+    public float getLineWidth(BlockState blockState) {
+        return 2f;
+    }
+
+    public Color4f getColor(BlockState blockState) {
+        return new Color4f(50, 50, 200, 100);
     }
 
 }

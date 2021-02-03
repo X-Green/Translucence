@@ -1,14 +1,13 @@
 package dev.eeasee.translucence.mixin;
 
-import dev.eeasee.translucence.render.AlphaRenderer;
-import net.minecraft.block.Blocks;
+import dev.eeasee.translucence.fakes.IWorldRenderer;
+import dev.eeasee.translucence.render.AddedOnWorldLastRenderer;
+import dev.eeasee.translucence.render.OutlineRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.Matrix4f;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,10 +15,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static dev.eeasee.translucence.render.AlphaRenderer.drawBlockOutline;
-
 @Mixin(WorldRenderer.class)
-public abstract class MixinWorldRenderer {
+public abstract class MixinWorldRenderer implements IWorldRenderer {
+    private OutlineRenderer outlineRenderer;
+
     @Shadow
     @Final
     private MinecraftClient client;
@@ -33,6 +32,11 @@ public abstract class MixinWorldRenderer {
     @Shadow
     @Final
     private BufferBuilderStorage bufferBuilders;
+
+    @Inject(method = "<init>", at = @At("RETURN"))
+    private void onInit(MinecraftClient client, BufferBuilderStorage bufferBuilders, CallbackInfo ci) {
+        this.outlineRenderer = new OutlineRenderer();
+    }
 
     @Inject(method = "render", at = @At(value = "INVOKE", ordinal = 3, shift = At.Shift.AFTER,
             target = "Lnet/minecraft/client/render/WorldRenderer;renderLayer(Lnet/minecraft/client/render/RenderLayer;Lnet/minecraft/client/util/math/MatrixStack;DDD)V"))
@@ -61,7 +65,7 @@ public abstract class MixinWorldRenderer {
             net.minecraft.client.render.LightmapTextureManager lightmapTextureManager,
             net.minecraft.client.util.math.Matrix4f matrix4f,
             CallbackInfo ci) {
-        AlphaRenderer.onRenderWorldLast(this.bufferBuilders, matrices, this.client, tickDelta);
+        AddedOnWorldLastRenderer.onRenderWorldLast((WorldRenderer) (Object) this, matrices, tickDelta);
     }
 
     @Inject(method = "render",
@@ -70,11 +74,11 @@ public abstract class MixinWorldRenderer {
                     shift = At.Shift.BEFORE
             ))
     private void beforeEntityRendering(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo ci) {
-
         //todo: del
-        VertexConsumerProvider vertexConsumerProvider = this.bufferBuilders.getOutlineVertexConsumers();
+    }
 
-        drawBlockOutline(client.world, matrices, vertexConsumerProvider.getBuffer(RenderLayer.getLines()), client.player, new BlockPos(-123, 66, -123), Blocks.ANVIL.getDefaultState());
-
+    @Override
+    public OutlineRenderer getOutlineRenderer() {
+        return this.outlineRenderer;
     }
 }

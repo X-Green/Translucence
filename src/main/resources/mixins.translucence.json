@@ -9,6 +9,7 @@
     "MixinBlockRenderManager",
     "MixinBlocks",
     "MixinBlockState",
+    "MixinChunkBuilder$BuiltChunk$RebuildTask",
     "MixinFluidRenderer",
     "MixinLeavesBlock",
     "MixinPistonBlockEntityRenderer",
