@@ -30,12 +30,10 @@ public abstract class MixinBlockState extends AbstractState<Block, BlockState> i
 
     @Inject(method = "getRenderType", at = @At("HEAD"), cancellable = true)
     private void invisibleRenderType(CallbackInfoReturnable<BlockRenderType> cir) {
-        /*
-        if (propertyRenderingType.notNormal) {
-            cir.setReturnValue(propertyRenderingType.renderType);
-        }
 
-         */
+        if (this.propertyRenderingType.transparent) {
+            cir.setReturnValue(BlockRenderType.INVISIBLE);
+        }
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))

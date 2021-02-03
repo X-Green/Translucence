@@ -20,6 +20,12 @@ public class InChunkBlockPosSet implements Set<BlockPos> {
     public InChunkBlockPosSet() {
     }
 
+    public InChunkBlockPosSet(BlockPos... blockPoses) {
+        for (BlockPos blockPos : blockPoses) {
+            this.add(blockPos);
+        }
+    }
+
     @Override
     public int size() {
         return this.hashes.size();

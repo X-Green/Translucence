@@ -15,8 +15,11 @@ public abstract class MixinChunkBuilder$BuiltChunk$RebuildTask {
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;"))
     private BlockState redirectedGetBlockState$Render(ChunkRendererRegion chunkRendererRegion, BlockPos pos) {
         BlockState blockState = chunkRendererRegion.getBlockState(pos);
+        if (!blockState.isAir()) {
+            System.out.println(blockState);
+        }
         if (((IBlockState) blockState).isOutlined()) {
-            ((IWorldRenderer) MinecraftClient.getInstance().worldRenderer).getOutlineRenderer().addToSection(
+            ((IWorldRenderer) MinecraftClient.getInstance().worldRenderer).getOutlineRenderer().tryAddToSection(
                     pos, blockState
             );
         }

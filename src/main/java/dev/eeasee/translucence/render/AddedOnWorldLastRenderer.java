@@ -4,7 +4,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.eeasee.translucence.fakes.IWorldRenderer;
 import dev.eeasee.translucence.util.Color4f;
-import dev.eeasee.translucence.util.RenderUtil;
 import fi.dy.masa.malilib.render.shader.ShaderProgram;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -123,8 +122,8 @@ public class AddedOnWorldLastRenderer {
 
         BlockPos origin = new BlockPos(-123, 64, -123);
 
-        OutlineRenderer outlineRenderer = ((IWorldRenderer)worldRenderer).getOutlineRenderer();
-        outlineRenderer.addOutlineBlock(Blocks.ANVIL.getDefaultState(), origin);
+        OutlineRenderer outlineRenderer = ((IWorldRenderer) worldRenderer).getOutlineRenderer();
+        outlineRenderer.tryAddToSection(origin, Blocks.ANVIL.getDefaultState());
         outlineRenderer.renderAllOutlines();
 
         RenderSystem.polygonOffset(0f, 0f);
