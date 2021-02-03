@@ -10,7 +10,7 @@ import java.util.*;
 
 public class InChunkBlockPosSet implements Set<BlockPos> {
     private static int getInChunkHash(BlockPos pos) {
-        return ((pos.getX() | 0b1111) << 8) | ((pos.getY() | 0b1111) << 4) | (pos.getZ() | 0b1111);
+        return ((pos.getX() & 0b1111) << 4) | ((pos.getY() & 0b11111111) << 8) | (pos.getZ() & 0b1111);
     }
 
     private final List<BlockPos> values = Lists.newArrayList();
